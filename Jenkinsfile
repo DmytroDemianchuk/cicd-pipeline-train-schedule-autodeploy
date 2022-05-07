@@ -5,6 +5,14 @@ pipeline {
         DOCKER_IMAGE_NAME = "dimadem/kuber:0.1"
         CANARY_REPLICAS = 0
     }
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Running build automation'
+                sh './gradlew build --no-daemon'
+                archiveArtifacts artifacts: 'dist/trainSchedule.zip'
+            }
+        }
         stage('Build Docker Image') {
             when {
                 branch 'master'
